@@ -19,12 +19,12 @@ jobs:
       run: python fetch.py
 
     - name: Download Latest Stable Releases
-      run: python download.py --arch win_stable_x86 win_stable_x64 win_stable_arm64
+      run: python download.py --arch win_stable_x64 mac_stable_arm64
 
     - name: Check for EXE Files
       id: check_files
       run: |
-        if find . -name "*.exe" -print -quit | grep -q .; then
+        if find . \( -name "*.exe" -o -name "*.dmg" \) -print -quit | grep -q .; then
           echo "exe_exists=true" >> $GITHUB_ENV
         else
           echo "exe_exists=false" >> $GITHUB_ENV
@@ -63,7 +63,9 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.latest_version }}
-        files: '*.exe'
+        files: |
+          *.exe
+          *.dmg
 
     - name: Reset Main Branch
       if: env.exe_exists == 'true' && env.tag_exists == 'false'

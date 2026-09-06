@@ -2,59 +2,18 @@ import base64
 import os
 import json
 import xml.etree.ElementTree as tree
-from datetime import datetime, timezone, timedelta
 
 import requests
 
 # https://source.chromium.org/chromium/chromium/src/+/main:chrome/installer/util/additional_parameters.cc;drc=406947a0f1e0e6b596d387b6b14156f369e8c55d;l=206
 info = {
-    "win_stable_x86": {
-        "os": '''arch="x86"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="x86-stable"''',
-    },
     "win_stable_x64": {
-        "os": '''arch="x64"''',
+        "os": '''platform="win" version="10.0.26100.1742" arch="x64"''',
         "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="x64-stable"''',
     },
-    "win_stable_arm64": {
-        "os": '''arch="arm64"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="arm64-stable"''',
-    },
-    "win_beta_x86": {
-        "os": '''arch="x86"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="1.1-beta-arch_x86"''',
-    },
-    "win_beta_x64": {
-        "os": '''arch="x64"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="1.1-beta-arch_x64"''',
-    },
-    "win_beta_arm64": {
-        "os": '''arch="arm64"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="1.1-beta-arch_arm64"''',
-    },
-    "win_dev_x86": {
-        "os": '''arch="x86"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="2.0-dev-arch_x86"''',
-    },
-    "win_dev_x64": {
-        "os": '''arch="x64"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="2.0-dev-arch_x64"''',
-    },
-    "win_dev_arm64": {
-        "os": '''arch="arm64"''',
-        "app": '''appid="{8A69D345-D564-463C-AFF1-A69D9E530F96}" ap="2.0-dev-arch_arm64"''',
-    },
-    "win_canary_x86": {
-        "os": '''arch="x86"''',
-        "app": '''appid="{4EA16AC7-FD5A-47C3-875B-DBF4A2008C20}" ap="x86-canary"''',
-    },
-    "win_canary_x64": {
-        "os": '''arch="x64"''',
-        "app": '''appid="{4EA16AC7-FD5A-47C3-875B-DBF4A2008C20}" ap="x64-canary"''',
-    },
-    "win_canary_arm64": {
-        "os": '''arch="arm64"''',
-        "app": '''appid="{4EA16AC7-FD5A-47C3-875B-DBF4A2008C20}" ap="arm64-canary"''',
+    "mac_stable_arm64": {
+        "os": '''platform="mac" version="15.5.0" arch="arm64"''',
+        "app": '''appid="com.google.Chrome" ap="arm64-stable" brand="GGRO"''',
     },
 }
 
@@ -64,10 +23,13 @@ session = requests.Session()
 
 
 def post(os: str, app: str) -> str:
+    # installsource="ondemandupdate" is what pins the reply to the
+    # "Stable Installs & Version Pins" cohort. Without it the server hands out
+    # a random staged-rollout cohort (on macOS that means an older build).
     xml = f"""<?xml version="1.0" encoding="UTF-8"?>
-    <request protocol="3.0" updater="Omaha" updaterversion="1.3.36.372" shell_version="1.3.36.352" ismachine="0" sessionid="{11111111-1111-1111-1111-111111111111}" installsource="taggedmi" requestid="{11111111-1111-1111-1111-111111111111}" dedup="cr" domainjoined="0">
-    <hw physmemory="16" sse="1" sse2="1" sse3="1" ssse3="1" sse41="1" sse42="1" avx="1"/>
-    <os platform="win" version="10.0.26100.1742" {os}/>
+    <request protocol="3.0" updater="Omaha" updaterversion="1.3.36.372" shell_version="1.3.36.352" ismachine="0" sessionid="{{11111111-1111-1111-1111-111111111111}}" installsource="ondemandupdate" requestid="{{11111111-1111-1111-1111-111111111111}}" dedup="cr" domainjoined="0">
+    <hw physmemory="16"/>
+    <os {os}/>
     <app version="" {app}>
     <updatecheck/>
     <data name="install" index="empty"/>
@@ -113,6 +75,19 @@ def version_tuple(v):
     return tuple(map(int, v.split(".")))
 
 
+def pick_url(urls):
+    return next(
+        (url for url in urls if url.startswith("https://") and "google.com" in url),
+        urls[0] if urls else "N/A",
+    )
+
+
+def asset_name(key, url):
+    """Release asset name, e.g. win_x64_..._installer_uncompressed.exe."""
+    platform, _, arch = key.split("_")
+    return f"{platform}_{arch}_{url.rsplit('/', 1)[-1]}"
+
+
 def load_json(file_path="data.json"):
     if not os.path.exists(file_path):
         return {}
@@ -150,90 +125,64 @@ def humansize(nbytes):
     return f"{f} {suffixes[i]}"
 
 
-def save_md(results, file_path="readme.md"):
-    def format_channel_arch(name):
-        parts = name.split("_")
-        return parts[0], parts[1], parts[2]  # platform, channel, arch
+platform_names = {"win": "Windows", "mac": "macOS"}
+arch_names = {"x86": "x86", "x64": "x64", "arm64": "ARM64"}
+channel_names = {"stable": "Stable", "beta": "Beta", "dev": "Dev", "canary": "Canary"}
 
+
+def save_md(results, file_path="readme.md"):
     channels = {}
-    for name, info in results.items():
-        platform, channel, arch = format_channel_arch(name)
-        if channel not in channels:
-            channels[channel] = {}
-        channels[channel][arch] = {
-            "name": name,
-            "version": info["version"],
-            "size": humansize(info["size"]),
-            "sha256": info["sha256"],
-            "url": next(
-                (
-                    url
-                    for url in info["urls"]
-                    if url.startswith("https://") and "google.com" in url
-                ),
-                info["urls"][0] if info["urls"] else "N/A",
-            ),
-        }
+    for name in info:
+        if name not in results:
+            continue
+        platform, channel, arch = name.split("_")
+        entry = results[name]
+        url = pick_url(entry["urls"])
+        channels.setdefault(channel, []).append(
+            {
+                "label": f"{platform_names.get(platform, platform)} "
+                f"{arch_names.get(arch, arch)}",
+                "version": entry["version"],
+                "size": humansize(entry["size"]),
+                "sha256": entry["sha256"],
+                "url": url,
+                "asset": asset_name(name, url),
+            }
+        )
 
     with open(file_path, "w", encoding="utf-8") as f:
-        f.write("# Google Chrome Offline Installers (extract with 7-Zip)\n")
+        f.write("# Google Chrome Offline Installers\n")
         f.write(
             "Stable release archive: "
             "https://github.com/Bush2021/chrome_installer/releases\n\n"
         )
+        f.write(
+            "- **Windows x64** - uncompressed installer, extract with 7-Zip\n"
+            "- **macOS ARM64** - universal disk image, open and drag to Applications\n\n"
+        )
 
-        channel_order = ["stable", "beta", "dev", "canary"]
-        channel_names = {
-            "stable": "Stable",
-            "beta": "Beta",
-            "dev": "Dev",
-            "canary": "Canary",
-        }
+        for channel, rows in channels.items():
+            f.write(f"## {channel_names.get(channel, channel.title())}\n\n")
 
-        f.write("## Contents\n\n")
-        for channel in channel_order:
-            if channel in channels:
-                channel_name = channel_names.get(channel, channel.title())
-                f.write(f"- [{channel_name}](#{channel})\n")
-        f.write("\n")
-
-        for channel in channel_order:
-            if channel not in channels:
-                continue
-
-            channel_name = channel_names.get(channel, channel.title())
-            f.write(f"## {channel_name}\n\n")
-
-            f.write("| Architecture | Version | Size | SHA-256 | Download |\n")
-            f.write("|--------------|---------|------|---------|----------|\n")
-
-            arch_order = ["x86", "x64", "arm64"]
-            arch_names = {"x86": "x86", "x64": "x64", "arm64": "ARM64"}
-
-            for arch in arch_order:
-                if arch in channels[channel]:
-                    info = channels[channel][arch]
-                    sha256_short = (
-                        info["sha256"][:16] + "..."
-                        if len(info["sha256"]) > 16
-                        else info["sha256"]
-                    )
-                    arch_display = arch_names.get(arch, arch.upper())
-
-                    f.write(
-                        f"| **{arch_display}** | `{info['version']}` | {info['size']} | `{sha256_short}` | [Download]({info['url']}) |\n"
-                    )
-
+            f.write("| Platform | Version | Size | SHA-256 | Download |\n")
+            f.write("|----------|---------|------|---------|----------|\n")
+            for row in rows:
+                sha256_short = (
+                    row["sha256"][:16] + "..."
+                    if len(row["sha256"]) > 16
+                    else row["sha256"]
+                )
+                f.write(
+                    f"| **{row['label']}** | `{row['version']}` | {row['size']} | "
+                    f"`{sha256_short}` | [Download]({row['url']}) |\n"
+                )
             f.write("\n")
 
             f.write("<details>\n")
             f.write("<summary>Full SHA-256 (sha256sum -c)</summary>\n\n")
             f.write("```\n")
-            for arch in arch_order:
-                if arch in channels[channel]:
-                    info = channels[channel][arch]
-                    asset = f"{arch}_{info['url'].split('/')[-1]}"
-                    f.write(f"{info['sha256']}  {asset}\n")
+            for row in rows:
+                f.write(f"{row['sha256']}  {row['asset']}\n")
             f.write("```\n\n")
             f.write("</details>\n\n")
 
@@ -245,6 +194,8 @@ def save_json(results, file_path="data.json"):
 
 def main():
     results = load_json()
+    # drop anything no longer tracked in `info`
+    results = {k: v for k, v in results.items() if k in info}
     fetch(info, results)
     save_md(results)
     save_json(results)

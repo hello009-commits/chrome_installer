@@ -6,9 +6,9 @@ import requests
 import shutil
 import subprocess
 
+from fetch import asset_name, pick_url, version_tuple
 
-def version_tuple(v):
-    return tuple(map(int, (v.split("."))))
+ARCH_KEYS = ["win_stable_x64", "mac_stable_arm64"]
 
 
 def get_last_version():
@@ -19,15 +19,23 @@ def get_last_version():
     return version if version else "0.0.0.0"
 
 
+def export_latest_version(arch_keys):
+    # Windows and macOS stable can sit on different builds, and one run makes
+    # one tag, so the tag tracks the newest installer in the release.
+    with open("data.json", "r") as f:
+        data = json.load(f)
+    latest_version = max((data[k]["version"] for k in arch_keys), key=version_tuple)
+    github_env = os.getenv("GITHUB_ENV")
+    if github_env and os.path.exists(github_env):
+        with open(github_env, "a") as env_file:
+            env_file.write(f"latest_version={latest_version}\n")
+
+
 def check_update(arch_key):
     last_version = get_last_version()
     with open("data.json", "r") as f:
         data = json.load(f)
         latest_version = data[arch_key]["version"]
-    github_env = os.getenv("GITHUB_ENV")
-    if github_env and os.path.exists(github_env):
-        with open(github_env, "a") as env_file:
-            env_file.write(f"latest_version={latest_version}\n")
     return version_tuple(last_version) < version_tuple(latest_version)
 
 
@@ -36,11 +44,7 @@ def get_download_info(arch_key):
         data = json.load(f)
         entry = data[arch_key]
         version = entry["version"]
-        urls = entry["urls"]
-        download_url = next(
-            (u for u in urls if u.startswith("https://") and "google.com" in u),
-            urls[0],
-        )
+        download_url = pick_url(entry["urls"])
         sha256 = entry["sha256"]
     return version, download_url, sha256
 
@@ -49,8 +53,7 @@ def download_for_arch(arch_key):
     if check_update(arch_key):
         print(f"New version detected for {arch_key}, start downloading...")
         version, url, expected_sha256 = get_download_info(arch_key)
-        arch_id = arch_key.split("_")[-1]
-        filename = f"{arch_id}_{url.split('/')[-1]}"
+        filename = asset_name(arch_key, url)
 
         if os.path.exists(filename):
             print(f"The file {filename} already exists, skip downloading")
@@ -77,16 +80,17 @@ def download_for_arch(arch_key):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Download Chrome installers for different architectures"
+        description="Download Chrome installers for different platforms"
     )
     parser.add_argument(
         "--arch",
         nargs="+",
-        default=["win_stable_x64"],
-        choices=["win_stable_x86", "win_stable_x64", "win_stable_arm64"],
-        help="Architecture(s) to download (default: win_stable_x64)",
+        default=ARCH_KEYS,
+        choices=ARCH_KEYS,
+        help=f"Target(s) to download (default: {' '.join(ARCH_KEYS)})",
     )
     args = parser.parse_args()
+    export_latest_version(args.arch)
     for arch in args.arch:
         download_for_arch(arch)
     if os.path.exists("__pycache__"):
