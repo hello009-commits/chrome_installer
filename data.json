@@ -1,0 +1,30 @@
+{
+    "win_stable_x64": {
+        "version": "152.0.7977.83",
+        "size": 516469160,
+        "sha1": "9e758603d952eb7e45cdcc5b38f59733440e6f6f",
+        "sha256": "b4fed9d49ca7700b804213dc1858a23c90ab91c180e5449e29a639ce95f1d4ac",
+        "urls": [
+            "http://edgedl.me.gvt1.com/edgedl/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe",
+            "https://edgedl.me.gvt1.com/edgedl/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe",
+            "http://dl.google.com/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe",
+            "https://dl.google.com/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe",
+            "http://www.google.com/dl/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe",
+            "https://www.google.com/dl/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe"
+        ]
+    },
+    "mac_stable_arm64": {
+        "version": "152.0.7977.83",
+        "size": 268608534,
+        "sha1": "f73034b6beda99160d123a657d2161ad1508cda3",
+        "sha256": "51cd7a59e04f86efebef307f504f72b7e72091ba5162444cdf1b4434596daa9b",
+        "urls": [
+            "http://edgedl.me.gvt1.com/edgedl/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg",
+            "https://edgedl.me.gvt1.com/edgedl/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg",
+            "http://dl.google.com/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg",
+            "https://dl.google.com/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg",
+            "http://www.google.com/dl/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg",
+            "https://www.google.com/dl/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg"
+        ]
+    }
+}
