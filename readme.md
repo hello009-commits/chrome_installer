@@ -8,15 +8,15 @@ Stable release archive: https://github.com/Bush2021/chrome_installer/releases
 
 | Platform | Version | Size | SHA-256 | Download |
 |----------|---------|------|---------|----------|
-| **Windows x64** | `152.0.7977.83` | 492.54 MB | `b4fed9d49ca7700b...` | [Download](https://dl.google.com/release2/chrome/acq2f3uzn7ecgyxc6aabdb56yyna_152.0.7977.83/152.0.7977.83_chrome_installer_uncompressed.exe) |
-| **macOS ARM64** | `152.0.7977.83` | 256.17 MB | `51cd7a59e04f86ef...` | [Download](https://dl.google.com/release2/chrome/g62gliie746ywu62ed7go3adam_152.0.7977.83/GoogleChrome-152.0.7977.83.dmg) |
+| **Windows x64** | `153.0.8010.37` | 493.84 MB | `cc15919515a27a04...` | [Download](https://dl.google.com/release2/chrome/gk2npvnuh46nt66cymep6yi5qq_153.0.8010.37/153.0.8010.37_chrome_installer_uncompressed.exe) |
+| **macOS ARM64** | `153.0.8010.37` | 261.44 MB | `98d24cd5dd12a22f...` | [Download](https://dl.google.com/release2/chrome/mtrht6j77xyruy2gnvuwtsjrcm_153.0.8010.37/GoogleChrome-153.0.8010.37.dmg) |
 
 <details>
 <summary>Full SHA-256 (sha256sum -c)</summary>
 
 ```
-b4fed9d49ca7700b804213dc1858a23c90ab91c180e5449e29a639ce95f1d4ac  win_x64_152.0.7977.83_chrome_installer_uncompressed.exe
-51cd7a59e04f86efebef307f504f72b7e72091ba5162444cdf1b4434596daa9b  mac_arm64_GoogleChrome-152.0.7977.83.dmg
+cc15919515a27a04e8fd8807bb3c1e7a2f3ae5bc6df2f0a7980aa83ebb9fd3b9  win_x64_153.0.8010.37_chrome_installer_uncompressed.exe
+98d24cd5dd12a22f246f7611399e12446db87e0036dc2232c5a0c55de158e6dc  mac_arm64_GoogleChrome-153.0.8010.37.dmg
 ```
 
 </details>
