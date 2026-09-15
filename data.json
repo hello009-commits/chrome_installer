@@ -1,0 +1,30 @@
+{
+    "win_stable_x64": {
+        "version": "153.0.8010.48",
+        "size": 517913512,
+        "sha1": "a8f3da2388d66362a9631c263aeaf664a4630056",
+        "sha256": "471d275aa382ff8a020ca16494a3a59c089f1bf8a9c20bf323d6c97ea0f196b9",
+        "urls": [
+            "http://edgedl.me.gvt1.com/edgedl/release2/chrome/ig4nfm6sbdjzxk3yt25rexgqeq_153.0.8010.48/153.0.8010.48_chrome_installer_uncompressed.exe",
+            "https://edgedl.me.gvt1.com/edgedl/release2/chrome/ig4nfm6sbdjzxk3yt25rexgqeq_153.0.8010.48/153.0.8010.48_chrome_installer_uncompressed.exe",
+            "http://dl.google.com/release2/chrome/ig4nfm6sbdjzxk3yt25rexgqeq_153.0.8010.48/153.0.8010.48_chrome_installer_uncompressed.exe",
+            "https://dl.google.com/release2/chrome/ig4nfm6sbdjzxk3yt25rexgqeq_153.0.8010.48/153.0.8010.48_chrome_installer_uncompressed.exe",
+            "http://www.google.com/dl/release2/chrome/ig4nfm6sbdjzxk3yt25rexgqeq_153.0.8010.48/153.0.8010.48_chrome_installer_uncompressed.exe",
+            "https://www.google.com/dl/release2/chrome/ig4nfm6sbdjzxk3yt25rexgqeq_153.0.8010.48/153.0.8010.48_chrome_installer_uncompressed.exe"
+        ]
+    },
+    "mac_stable_arm64": {
+        "version": "153.0.8010.48",
+        "size": 274058743,
+        "sha1": "cbded623be833f36ac999586499fa11d9d2c451c",
+        "sha256": "160a0ec6e062500164dd7f62047c65585b0d70efcf53de4e6ca4d3b962cf9e9a",
+        "urls": [
+            "http://edgedl.me.gvt1.com/edgedl/release2/chrome/ad6l2piroiqtckdm7rwkc6givuyq_153.0.8010.48/GoogleChrome-153.0.8010.48.dmg",
+            "https://edgedl.me.gvt1.com/edgedl/release2/chrome/ad6l2piroiqtckdm7rwkc6givuyq_153.0.8010.48/GoogleChrome-153.0.8010.48.dmg",
+            "http://dl.google.com/release2/chrome/ad6l2piroiqtckdm7rwkc6givuyq_153.0.8010.48/GoogleChrome-153.0.8010.48.dmg",
+            "https://dl.google.com/release2/chrome/ad6l2piroiqtckdm7rwkc6givuyq_153.0.8010.48/GoogleChrome-153.0.8010.48.dmg",
+            "http://www.google.com/dl/release2/chrome/ad6l2piroiqtckdm7rwkc6givuyq_153.0.8010.48/GoogleChrome-153.0.8010.48.dmg",
+            "https://www.google.com/dl/release2/chrome/ad6l2piroiqtckdm7rwkc6givuyq_153.0.8010.48/GoogleChrome-153.0.8010.48.dmg"
+        ]
+    }
+}
