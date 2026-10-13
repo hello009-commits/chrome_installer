@@ -8,15 +8,15 @@ Stable release archive: https://github.com/Bush2021/chrome_installer/releases
 
 | Platform | Version | Size | SHA-256 | Download |
 |----------|---------|------|---------|----------|
-| **Windows x64** | `155.0.8059.40` | 498.41 MB | `c43d400e13d421f4...` | [Download](https://dl.google.com/release2/chrome/adeicfs34nqhzmry2l2sdlpo7l2q_155.0.8059.40/155.0.8059.40_chrome_installer_uncompressed.exe) |
-| **macOS ARM64** | `155.0.8059.40` | 263.24 MB | `004c039b5c0c7be3...` | [Download](https://dl.google.com/release2/chrome/lr7fpw3uxyyx5tnf7oone26c6m_155.0.8059.40/GoogleChrome-155.0.8059.40.dmg) |
+| **Windows x64** | `155.0.8059.80` | 498.98 MB | `90f385e76ae2d728...` | [Download](https://dl.google.com/release2/chrome/advybryxffwkweengdiwcshvtpwa_155.0.8059.80/155.0.8059.80_chrome_installer_uncompressed.exe) |
+| **macOS ARM64** | `155.0.8059.80` | 263.22 MB | `5ce0d9e0ca8627c5...` | [Download](https://dl.google.com/release2/chrome/lmb4243t4ixokmugtdcax7yo7m_155.0.8059.80/GoogleChrome-155.0.8059.80.dmg) |
 
 <details>
 <summary>Full SHA-256 (sha256sum -c)</summary>
 
 ```
-c43d400e13d421f43ea3bba7e502004f2fe428e5679b32975e3a343bc1d97f06  win_x64_155.0.8059.40_chrome_installer_uncompressed.exe
-004c039b5c0c7be3d61fa5254e2b095c3725378ae199c653f324b70f4aed894c  mac_arm64_GoogleChrome-155.0.8059.40.dmg
+90f385e76ae2d728551f72e457a07f8ccb60d85494346e79c2f1bd401bd72aa0  win_x64_155.0.8059.80_chrome_installer_uncompressed.exe
+5ce0d9e0ca8627c5f5fb5f7be34c4a4ae402880db2488b9b074969272bf5a83c  mac_arm64_GoogleChrome-155.0.8059.80.dmg
 ```
 
 </details>
