@@ -1,0 +1,30 @@
+{
+    "win_stable_x64": {
+        "version": "155.0.8059.85",
+        "size": 520460712,
+        "sha1": "768b7f4c89a1187d8cf76e89a2ccb24fda7be41f",
+        "sha256": "2a9b18526096b614fbfda4324280fc69316e42dcb0668301f2cd8a4524054664",
+        "urls": [
+            "http://edgedl.me.gvt1.com/edgedl/release2/chrome/ps7jv2y4q3yo32dl6v6liqauri_155.0.8059.85/155.0.8059.85_chrome_installer_uncompressed.exe",
+            "https://edgedl.me.gvt1.com/edgedl/release2/chrome/ps7jv2y4q3yo32dl6v6liqauri_155.0.8059.85/155.0.8059.85_chrome_installer_uncompressed.exe",
+            "http://dl.google.com/release2/chrome/ps7jv2y4q3yo32dl6v6liqauri_155.0.8059.85/155.0.8059.85_chrome_installer_uncompressed.exe",
+            "https://dl.google.com/release2/chrome/ps7jv2y4q3yo32dl6v6liqauri_155.0.8059.85/155.0.8059.85_chrome_installer_uncompressed.exe",
+            "http://www.google.com/dl/release2/chrome/ps7jv2y4q3yo32dl6v6liqauri_155.0.8059.85/155.0.8059.85_chrome_installer_uncompressed.exe",
+            "https://www.google.com/dl/release2/chrome/ps7jv2y4q3yo32dl6v6liqauri_155.0.8059.85/155.0.8059.85_chrome_installer_uncompressed.exe"
+        ]
+    },
+    "mac_stable_arm64": {
+        "version": "155.0.8059.85",
+        "size": 275971611,
+        "sha1": "17d1dc0a383745e3bc3eb2de072bff4b0cc73b28",
+        "sha256": "2adfb136bea19ea9f6386a3b408aae4b81b5a3c0955fc3a3093b6ae184c527e7",
+        "urls": [
+            "http://edgedl.me.gvt1.com/edgedl/release2/chrome/o2mzgo6gshgwjzckj3bvrpe4nm_155.0.8059.85/GoogleChrome-155.0.8059.85.dmg",
+            "https://edgedl.me.gvt1.com/edgedl/release2/chrome/o2mzgo6gshgwjzckj3bvrpe4nm_155.0.8059.85/GoogleChrome-155.0.8059.85.dmg",
+            "http://dl.google.com/release2/chrome/o2mzgo6gshgwjzckj3bvrpe4nm_155.0.8059.85/GoogleChrome-155.0.8059.85.dmg",
+            "https://dl.google.com/release2/chrome/o2mzgo6gshgwjzckj3bvrpe4nm_155.0.8059.85/GoogleChrome-155.0.8059.85.dmg",
+            "http://www.google.com/dl/release2/chrome/o2mzgo6gshgwjzckj3bvrpe4nm_155.0.8059.85/GoogleChrome-155.0.8059.85.dmg",
+            "https://www.google.com/dl/release2/chrome/o2mzgo6gshgwjzckj3bvrpe4nm_155.0.8059.85/GoogleChrome-155.0.8059.85.dmg"
+        ]
+    }
+}
